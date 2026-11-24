@@ -1,0 +1,267 @@
+.station-viewport {
+  background: #0a0e15;
+  touch-action: none;
+}
+
+.station-viewport canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: grab;
+}
+.station-viewport canvas:active {
+  cursor: grabbing;
+}
+
+.station-graphics-fallback,
+.station-gate-status,
+.station-panel-error {
+  position: fixed;
+  inset-inline: 0;
+  width: fit-content;
+  max-width: calc(100% - 2rem);
+  margin-inline: auto;
+  padding: .55rem .9rem;
+  border: 1px solid #485a72;
+  border-radius: .5rem;
+  background: #101723;
+  color: #e2e8f0;
+  font-size: .875rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.station-graphics-fallback { inset-block-start: 48%; z-index: 15; }
+.station-gate-status {
+  z-index: 25;
+  inset-block-end: max(2rem, env(safe-area-inset-bottom));
+  border-color: #d9a863;
+  background: #151c26;
+  color: #fde6b8;
+  font-weight: 700;
+}
+.station-panel-error { z-index: 60; inset-block-end: max(1rem, env(safe-area-inset-bottom)); color: #ffe5a2; }
+
+.station-joystick {
+  position: fixed;
+  z-index: 25;
+  display: grid;
+  place-items: center;
+  left: max(1rem, env(safe-area-inset-left));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  width: calc(var(--joystick-travel) * 2 + 42px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(165, 204, 224, 0.55);
+  border-radius: 50%;
+  background: rgba(11, 17, 27, 0.72);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.4);
+  touch-action: none;
+  pointer-events: auto;
+}
+
+.station-joystick__cross {
+  position: absolute;
+  inset: 22%;
+  pointer-events: none;
+  opacity: 0.25;
+  background:
+    linear-gradient(to right, transparent 48%, #cbd5e1 48%, #cbd5e1 52%, transparent 52%),
+    linear-gradient(to bottom, transparent 48%, #cbd5e1 48%, #cbd5e1 52%, transparent 52%);
+}
+
+.station-joystick__knob {
+  width: 44px;
+  aspect-ratio: 1;
+  border: 2px solid #93d9f8;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #3b7ea3, #1b3a50);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* HUD Interactive Surfaces */
+.station-hud button { pointer-events: auto; cursor: pointer; }
+.station-hud button:disabled { cursor: not-allowed; }
+.station-hud button:focus-visible,
+.station-dialog-layer :is(button, input, select, textarea, [tabindex="0"]):focus-visible {
+  outline: 2px solid #8bddff;
+  outline-offset: 3px;
+}
+
+.station-dialog-layer > [role='dialog']:not(dialog) > :first-child {
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Live Radar Minimap */
+.station-minimap {
+  display: flex;
+  flex-direction: column;
+  width: 186px;
+  padding: 6px;
+  background: rgba(11, 16, 26, 0.9);
+  border: 1px solid rgba(100, 116, 139, 0.7);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+.station-minimap:hover {
+  border-color: #eab367;
+  background: rgba(15, 23, 36, 0.96);
+}
+.station-minimap__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 0 2px 4px;
+}
+.station-minimap__room {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.station-minimap__expand {
+  color: #94a3b8;
+  flex: none;
+}
+.station-minimap:hover .station-minimap__expand {
+  color: #f3c47a;
+}
+.station-minimap__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  background: #0d131d;
+  border: 1px solid rgba(71, 85, 105, 0.5);
+}
+
+/* Ergonomic Right-Hand Action Pad (works cleanly on both Touch & Desktop) */
+.station-action-pad {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.station-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.station-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 66px;
+  min-height: 62px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(100, 116, 139, 0.7);
+  background: rgba(13, 20, 32, 0.9);
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  touch-action: manipulation;
+  transition: transform 90ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+.station-action-btn:not(:disabled):active {
+  transform: scale(0.95);
+}
+.station-action-btn:disabled {
+  opacity: 0.46;
+  background: rgba(15, 20, 30, 0.72);
+  border-color: rgba(71, 85, 105, 0.5);
+  color: #94a3b8;
+}
+.station-action-btn--use:not(:disabled) {
+  border-color: #f59e0b;
+  background: rgba(54, 37, 13, 0.94);
+  color: #fde68a;
+}
+.station-action-btn--report:not(:disabled) {
+  border-color: #f87171;
+  background: rgba(75, 18, 22, 0.95);
+  color: #fee2e2;
+}
+.station-action-btn--attack:not(:disabled) {
+  border-color: #ef4444;
+  background: rgba(88, 17, 22, 0.95);
+  color: #fecaca;
+}
+.station-action-btn--sabotage:not(:disabled) {
+  border-color: #fb923c;
+  background: rgba(65, 29, 14, 0.94);
+  color: #ffedd5;
+}
+.station-action-btn--shield:not(:disabled) {
+  border-color: #38bdf8;
+  background: rgba(14, 48, 70, 0.94);
+  color: #e0f2fe;
+}
+.station-action-btn__kbd {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.station-hud[data-touch='true'] .station-action-btn__kbd {
+  display: none;
+}
+
+.station-hud[data-touch='true'] .station-hud-utilities button {
+  min-width: 44px;
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+@media (max-width: 780px) {
+  .station-hud-readout {
+    top: max(0.5rem, env(safe-area-inset-top));
+    left: max(0.5rem, env(safe-area-inset-left));
+    max-width: min(14.5rem, calc(100% - 10rem));
+  }
+  .station-hud-readout > :first-child { padding: 0.5rem 0.65rem; }
+  .station-hud-alerts { top: 5.5rem; }
+  .station-hud-utilities {
+    top: max(0.5rem, env(safe-area-inset-top));
+    right: max(0.5rem, env(safe-area-inset-right));
+    gap: 0.3rem;
+  }
+  .station-hud-tasks { display: none; }
+  .station-minimap { width: 128px; padding: 4px; }
+  .station-minimap__room { font-size: 9px; }
+  .station-action-btn {
+    min-width: 60px;
+    min-height: 58px;
+    padding: 6px 8px;
+    font-size: 10.5px;
+  }
+  .station-joystick {
+    left: max(0.75rem, env(safe-area-inset-left));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    width: calc(var(--joystick-travel) * 2 + 34px);
+  }
+}
+
+@media (max-height: 480px) {
+  .station-hud-tasks { display: none; }
+  .station-minimap { width: 112px; }
+  .station-action-btn { min-width: 54px; min-height: 50px; padding: 4px 6px; }
+}
